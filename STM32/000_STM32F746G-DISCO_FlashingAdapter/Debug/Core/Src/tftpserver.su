@@ -1,0 +1,15 @@
+tftpserver.c:98:7:tftp_send_message	32	static
+tftpserver.c:128:5:tftp_construct_error_message	24	static
+tftpserver.c:153:5:tftp_send_error_message	560	static
+tftpserver.c:175:5:tftp_send_data_packet	560	static
+tftpserver.c:198:5:tftp_send_ack_packet	40	static
+tftpserver.c:224:6:tftp_cleanup_rd	16	static
+tftpserver.c:247:6:tftp_cleanup_wr	16	static
+tftpserver.c:273:6:tftp_send_next_block	32	static
+tftpserver.c:296:6:rrq_recv_callback	32	static
+tftpserver.c:339:6:wrq_recv_callback	32	static
+tftpserver.c:429:5:tftp_process_read	32	static
+tftpserver.c:483:5:tftp_process_write	32	static
+tftpserver.c:538:6:process_tftp_request	64	static
+tftpserver.c:625:6:recv_callback_tftp	24	static
+tftpserver.c:642:6:tftpd_init	16	static

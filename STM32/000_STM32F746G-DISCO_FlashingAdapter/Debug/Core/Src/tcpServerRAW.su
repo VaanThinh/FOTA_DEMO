@@ -1,0 +1,9 @@
+tcpServerRAW.c:100:6:tcp_server_init	24	static
+tcpServerRAW.c:136:14:tcp_server_accept	32	static
+tcpServerRAW.c:189:14:tcp_server_recv	40	static
+tcpServerRAW.c:292:13:tcp_server_error	24	static
+tcpServerRAW.c:312:14:tcp_server_poll	24	static
+tcpServerRAW.c:352:14:tcp_server_sent	32	static
+tcpServerRAW.c:383:13:tcp_server_send	32	static
+tcpServerRAW.c:443:13:tcp_server_connection_close	16	static
+tcpServerRAW.c:465:13:tcp_server_handle	128	static

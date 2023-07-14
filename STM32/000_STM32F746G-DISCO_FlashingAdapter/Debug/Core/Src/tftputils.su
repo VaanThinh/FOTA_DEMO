@@ -1,0 +1,9 @@
+tftputils.c:25:13:tftp_decode_op	16	static
+tftputils.c:33:7:tftp_extract_block	24	static
+tftputils.c:42:6:tftp_extract_filename	16	static
+tftputils.c:50:6:tftp_set_opcode	16	static
+tftputils.c:60:6:tftp_set_errorcode	16	static
+tftputils.c:70:6:tftp_set_errormsg	16	static
+tftputils.c:78:6:tftp_set_block	32	static
+tftputils.c:88:6:tftp_set_data_message	24	static
+tftputils.c:96:7:tftp_is_correct_ack	16	static
