@@ -1,0 +1,8 @@
+rb_ucal_CAN_If.c:11:6:rb_CAN1_Init	8	static
+rb_ucal_CAN_If.c:40:6:rb_CAN1_DeInit	8	static
+rb_ucal_CAN_If.c:56:6:rb_CAN1_Receive	56	static
+rb_ucal_CAN_If.c:84:6:rb_CAN1_Transmit	56	static
+rb_ucal_CAN_If.c:114:6:rb_CAN1_IRQ_Config	16	static
+rb_ucal_CAN_If.c:128:6:rb_CAN1_Filter_Config	80	static
+rb_ucal_CAN_If.c:168:6:rb_CAN1_Start	8	static
+rb_ucal_CAN_If.c:182:6:HAL_CAN_RxFifo0MsgPendingCallback	16	static

@@ -446,10 +446,10 @@ static void tcp_client_handle (struct tcp_pcb *tpcb, struct tcp_client_struct *e
 {
 	/* get the Remote IP */
 	ip4_addr_t inIP = tpcb->remote_ip;
-	uint16_t inPort = tpcb->remote_port;
+	// uint16_t inPort = tpcb->remote_port;
 
 	/* Extract the IP */
-	char *remIP = ipaddr_ntoa(&inIP);
+	// char *remIP = ipaddr_ntoa(&inIP);
 
 //	esTx->state = es->state;
 //	esTx->pcb = es->pcb;

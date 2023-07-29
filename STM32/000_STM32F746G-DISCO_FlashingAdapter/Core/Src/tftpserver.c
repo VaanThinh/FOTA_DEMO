@@ -17,14 +17,17 @@
   */
 
 #include "tftpserver.h"
-#include "tftputils.h" 
-//#include "ff.h"
+#include "tftputils.h"
 #include "stm32f7xx.h"
 #include <string.h>
-// #include "flash.h"
 #include "quadspi.h"
 
+#define DEBOUNCE_THRESHOLD  5000000
+
 volatile uint32_t fileSize = 0;
+static uint32_t debouncedCnt = 0;
+
+uint8_t isTFTPTransferCompleted = 0;
 
 typedef struct
 {
@@ -258,6 +261,9 @@ void tftp_cleanup_wr(struct udp_pcb *upcb, tftp_connection_args *args)
   /* close the connection */
   udp_remove(upcb);
 
+  /* reset debounced counter */
+  debouncedCnt = 0;
+
   /* reset the callback function */
   udp_recv(UDPpcb, recv_callback_tftp, NULL);
 }
@@ -353,9 +359,6 @@ void wrq_recv_callback(void *arg, struct udp_pcb *upcb, struct pbuf *pkt_buf, co
       (tftp_extract_block(pkt_buf->payload) == (args->block + 1)))
   {
     /* write the received data to the flash memory */
-    // f_write(&file_CR, (char*)pkt_buf->payload + TFTP_DATA_PKT_HDR_LEN, pkt_buf->len - TFTP_DATA_PKT_HDR_LEN, (UINT*)&n);
-    // f_write (file, buf , sizeofbuf, &BytesWritefile); 
-
     uint16_t NbOfBytes = pkt_buf->len - TFTP_DATA_PKT_HDR_LEN;
 
     fileSize += NbOfBytes;
@@ -365,13 +368,6 @@ void wrq_recv_callback(void *arg, struct udp_pcb *upcb, struct pbuf *pkt_buf, co
     {
       Error_Handler();
     }
-
-    // if (n <= 0)
-    // {
-    //   tftp_send_error_message(upcb, addr, port, TFTP_ERR_FILE_NOT_FOUND);
-    //   /* close the connection */
-    //   tftp_cleanup_wr(upcb, args); /* close the connection */
-    // }
     
     /* update our block number to match the block number just received */
     args->block++;
@@ -409,6 +405,7 @@ void wrq_recv_callback(void *arg, struct udp_pcb *upcb, struct pbuf *pkt_buf, co
 
     tftp_cleanup_wr(upcb, args);
     pbuf_free(pkt_buf);
+    isTFTPTransferCompleted = 1;
   }
   else
   {
@@ -431,14 +428,6 @@ int tftp_process_read(struct udp_pcb *upcb, const ip_addr_t *to, unsigned short 
   tftp_connection_args *args = NULL;
 
   /* If Could not open the file which will be transmitted  */
-  // if (f_open(&file_SD, (const TCHAR*)FileName, FA_READ) != FR_OK)
-  // {
-  //   tftp_send_error_message(upcb, to, to_port, TFTP_ERR_FILE_NOT_FOUND);
-
-  //   tftp_cleanup_rd(upcb, args);
-
-  //   return 0;
-  // }
   
   args = mem_malloc(sizeof *args);
   /* If we aren't able to allocate memory for a "tftp_connection_args" */
@@ -554,7 +543,10 @@ void process_tftp_request(struct pbuf *pkt_buf, const ip_addr_t *addr, u16_t por
   /* NOTE:  This is how TFTP works.  There is a UDP PCB for the standard port
    * 69 which al transactions begin communication on, however all subsequent
    * transactions for a given "stream" occur on another port!  */
-  err = udp_bind(upcb, IP_ADDR_ANY, 0);
+  ip_addr_t tftpServerIPADDR;
+  IP_ADDR4(&tftpServerIPADDR, 192, 168, 0, 123);
+
+  err = udp_bind(upcb, &tftpServerIPADDR, 0);
   if (err != ERR_OK)
   {    
     /* Unable to bind to port   */
@@ -562,42 +554,10 @@ void process_tftp_request(struct pbuf *pkt_buf, const ip_addr_t *addr, u16_t por
   }
   switch (op)
   {
-    // case TFTP_RRQ:/* TFTP RRQ (read request) */
-    // {
-    //   /* Read the name of the file asked by the client to be sent from the SD card */
-    //   tftp_extract_filename(FileName, pkt_buf->payload);
-
-    //   /* Could not open filesystem */
-    //   if(f_mount(&filesystem, (TCHAR const*)"", 0) != FR_OK)
-    //   {
-    //     return;
-    //   }
-    //   /* Could not open the selected directory */
-    //   if (f_opendir(&dir_1, "/") != FR_OK)
-    //   {
-    //     return;
-    //   }
-    //   /* Start the TFTP read mode*/
-    //   tftp_process_read(upcb, addr, port, FileName);
-    //   break;
-    // } 
-
     case TFTP_WRQ: /* TFTP WRQ (write request) */
     {
       /* Read the name of the file asked by the client to be received and writen in the SD card */
       tftp_extract_filename(FileName, pkt_buf->payload);
-  
-      /* Could not open filesystem */
-      // if(f_mount(&filesystem, (TCHAR const*)"", 0) != FR_OK)
-      // {
-      //   return;
-      // }
-        
-      /* If Could not open the selected directory */
-      // if (f_opendir(&dir_2, "/") != FR_OK)
-      // {
-      //   return;
-      // }
         
       /* Start the TFTP write mode*/
       tftp_process_write(upcb, addr, port, FileName);
@@ -633,7 +593,6 @@ void recv_callback_tftp(void *arg, struct udp_pcb *upcb, struct pbuf *pkt_buf,
 }
 
 
-
 /**
   * @brief  Initializes the udp pcb for TFTP 
   * @param  None
@@ -647,12 +606,33 @@ void tftpd_init(void)
   UDPpcb = udp_new();
   if (UDPpcb)
   {  
+    ip_addr_t serverIPADDR;
+    IP_ADDR4(&serverIPADDR, 192, 168, 0, 123);
+
     /* Bind this PCB to port 69  */
-    err = udp_bind(UDPpcb, IP_ADDR_ANY, TFTP_PORT);
+    err = udp_bind(UDPpcb, &serverIPADDR, TFTP_PORT);
     if (err == ERR_OK)
     {    
       /* TFTP server start  */
       udp_recv(UDPpcb, recv_callback_tftp, NULL);
+    }
+  }
+}
+
+
+/**
+ * @brief
+ */
+void rb_resetUDPPCB(void)
+{
+  void *udp_pcbs_ptr = (udp_pcbs->recv);
+  if (udp_pcbs_ptr != (recv_callback_tftp) && udp_pcbs_ptr != (wrq_recv_callback))
+  {
+    debouncedCnt++;
+    if (debouncedCnt > DEBOUNCE_THRESHOLD)
+    {
+      debouncedCnt = 0;
+      udp_pcbs = UDPpcb;
     }
   }
 }

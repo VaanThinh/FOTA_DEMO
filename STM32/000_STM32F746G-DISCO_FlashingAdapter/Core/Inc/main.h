@@ -29,6 +29,8 @@ extern "C" {
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f7xx_hal.h"
+#include "rb_ucal_CAN_If.h"
+#include "Hash.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -54,7 +56,7 @@ extern "C" {
 void Error_Handler(void);
 
 /* USER CODE BEGIN EFP */
-
+void CAN1_RxCallBack(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/

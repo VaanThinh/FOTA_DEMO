@@ -22,18 +22,7 @@
 #ifndef INC_TCPSERVERRAW_H_
 #define INC_TCPSERVERRAW_H_
 
-#include "main.h"
-
-union can_u
-{
-  uint8_t arr[12];
-
-  struct can_st{
-   uint32_t id;
-   uint8_t  data[8];
-  }can_st;
-}can_u;
-
 void tcp_server_init(void);
+void rb_TCPServerSend(char* msg);
 
 #endif /* INC_TCPSERVERRAW_H_ */

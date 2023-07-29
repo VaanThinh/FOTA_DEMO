@@ -6,4 +6,4 @@ tcpClientRAW.c:300:14:tcp_client_poll	24	static
 tcpClientRAW.c:338:14:tcp_client_sent	32	static
 tcpClientRAW.c:368:13:tcp_client_send	32	static
 tcpClientRAW.c:423:13:tcp_client_connection_close	16	static
-tcpClientRAW.c:445:13:tcp_client_handle	32	static
+tcpClientRAW.c:445:13:tcp_client_handle	24	static

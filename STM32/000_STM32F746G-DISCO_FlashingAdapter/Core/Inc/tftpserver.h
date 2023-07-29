@@ -21,7 +21,7 @@
 
 #include "lwip/mem.h"
 #include "lwip/udp.h"
-
+#include "tcpServerRAW.h"
 
 
 #define TFTP_OPCODE_LEN         2
@@ -62,6 +62,7 @@ typedef enum {
 
 
 void tftpd_init(void);
+void rb_resetUDPPCB(void);
 int tftp_process_write(struct udp_pcb *upcb2, const ip_addr_t *to, unsigned short to_port, char* FileName);
 int tftp_process_read(struct udp_pcb *upcb2, const ip_addr_t *to, unsigned short to_port, char* FileName);
 #endif

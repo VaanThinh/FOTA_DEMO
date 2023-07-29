@@ -23,6 +23,7 @@ Core/Src/tftputils.o: ../Core/Src/tftputils.c ../Core/Inc/tftputils.h \
  ../Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_dma.h \
  ../Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_dma_ex.h \
  ../Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_cortex.h \
+ ../Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_can.h \
  ../Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_eth.h \
  ../Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_flash.h \
  ../Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_flash_ex.h \
@@ -33,6 +34,7 @@ Core/Src/tftputils.o: ../Core/Src/tftputils.c ../Core/Inc/tftputils.h \
  ../Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_qspi.h \
  ../Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_tim.h \
  ../Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_tim_ex.h \
+ ../Core/Inc/rb_ucal_CAN_If.h ../Core/Inc/main.h ../Core/Inc/Hash.h \
  ../Middlewares/Third_Party/LwIP/src/include/lwip/debug.h \
  ../Middlewares/Third_Party/LwIP/src/include/lwip/arch.h \
  ../Middlewares/Third_Party/LwIP/system/arch/cc.h \
@@ -56,7 +58,8 @@ Core/Src/tftputils.o: ../Core/Src/tftputils.c ../Core/Inc/tftputils.h \
  ../Middlewares/Third_Party/LwIP/src/include/lwip/prot/ip4.h \
  ../Middlewares/Third_Party/LwIP/src/include/lwip/ip6.h \
  ../Middlewares/Third_Party/LwIP/src/include/lwip/prot/ip.h \
- ../Middlewares/Third_Party/LwIP/src/include/lwip/prot/udp.h
+ ../Middlewares/Third_Party/LwIP/src/include/lwip/prot/udp.h \
+ ../Core/Inc/tcpServerRAW.h
 
 ../Core/Inc/tftputils.h:
 
@@ -110,6 +113,8 @@ Core/Src/tftputils.o: ../Core/Src/tftputils.c ../Core/Inc/tftputils.h \
 
 ../Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_cortex.h:
 
+../Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_can.h:
+
 ../Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_eth.h:
 
 ../Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_flash.h:
@@ -129,6 +134,12 @@ Core/Src/tftputils.o: ../Core/Src/tftputils.c ../Core/Inc/tftputils.h \
 ../Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_tim.h:
 
 ../Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_tim_ex.h:
+
+../Core/Inc/rb_ucal_CAN_If.h:
+
+../Core/Inc/main.h:
+
+../Core/Inc/Hash.h:
 
 ../Middlewares/Third_Party/LwIP/src/include/lwip/debug.h:
 
@@ -177,3 +188,5 @@ Core/Src/tftputils.o: ../Core/Src/tftputils.c ../Core/Inc/tftputils.h \
 ../Middlewares/Third_Party/LwIP/src/include/lwip/prot/ip.h:
 
 ../Middlewares/Third_Party/LwIP/src/include/lwip/prot/udp.h:
+
+../Core/Inc/tcpServerRAW.h:
